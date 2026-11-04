@@ -1,0 +1,9 @@
+# Dependencies (re-created by "npm install")
+node_modules/
+
+# Secrets - NEVER commit these
+.env
+
+# Logs and OS files
+*.log
+.DS_Store
