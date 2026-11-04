@@ -1,0 +1,200 @@
+:root {
+  --primary: #1e3a5f;        /* navy: header, buttons */
+  --primary-dark: #152b47;   /* darker navy: button hover */
+  --accent: #b8923a;         /* gold: thin accent line */
+  --bg: #f4f6f9;             /* page background */
+  --card-bg: #ffffff;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --border: #d5dbe3;
+  --error: #b42318;
+  --error-bg: #fdecea;
+}
+
+/*  Base ---------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;        /* header, main, footer stacked; main grows */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+main { flex: 1; }
+
+a { color: var(--primary); }
+
+[hidden] { display: none !important; }  /* makes the "hidden" attribute always win */
+
+/* ---------- Navigation bar (all pages except login) ---------- */
+.navbar {
+  background: var(--primary);
+  border-bottom: 3px solid var(--accent);
+}
+
+.navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar-logo {
+  height: 40px;      /* small version of the same logo */
+  width: auto;       /* keeps the original proportions */
+}
+
+.navbar-links a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.navbar-links a:hover { text-decoration: underline; }
+
+/* ---------- Layout ---------- */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Login page ---------- */
+.login-main {
+  display: flex;
+  align-items: center;       /* centres everything vertically */
+  justify-content: center;   /* and horizontally */
+  padding: 2rem 1rem;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.login-logo {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 100%;
+  max-width: 160px;   /* change this one number to make the logo bigger or smaller */
+  height: auto;       /* keeps the original aspect ratio */
+}
+
+.login-title {
+  margin: 0 0 1.5rem;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+
+/* ---------- Card, form, buttons ---------- */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+}
+
+label {
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:hover { background: var(--primary-dark); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-block {
+  width: 100%;
+  margin-top: 1.25rem;
+}
+
+.alert {
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.alert-error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+/* ---------- Error page ---------- */
+.error-page {
+  text-align: center;
+  padding-top: 4rem;
+}
+
+.error-page h1 {
+  font-size: 4rem;
+  margin: 0;
+  color: var(--primary);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 600px) {
+  .navbar-title { display: none; }   /* on small screens show only the logo */
+  .login-title { font-size: 1.2rem; }
+}

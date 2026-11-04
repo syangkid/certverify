@@ -1,8 +1,3 @@
--- database/schema.sql
--- Creates all tables for the Academic Certificate Verification System.
--- WARNING: the DROP lines delete existing tables AND their data.
--- Run this file on a development database, or once when first setting up Neon.
-
 DROP TABLE IF EXISTS verification_results;
 DROP TABLE IF EXISTS verification_requests;
 DROP TABLE IF EXISTS certificates;

@@ -1,0 +1,29 @@
+<%- include('../partials/head', { title: 'Login' }) %>
+
+<main class="login-main">
+  <div class="login-wrapper">
+    <!-- Your own logo file: public/images/logo.png (shown at its original proportions) -->
+    <img src="/images/logo.png" alt="Institution logo" class="login-logo">
+    <h1 class="login-title">Academic Certificate Verification System</h1>
+
+    <div class="card">
+      <h2>Sign in</h2>
+
+      <!-- Hidden until login.js has an error to show -->
+      <div id="message" class="alert alert-error" hidden></div>
+
+      <form id="login-form">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="username">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password">
+
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="/js/login.js"></script>
+<%- include('../partials/footer') %>

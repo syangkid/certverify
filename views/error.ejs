@@ -1,0 +1,10 @@
+<%- include('partials/head', { title: title }) %>
+<%- include('partials/header') %>
+
+<main class="container error-page">
+  <h1><%= status %></h1>
+  <p><%= message %></p>
+  <a href="/login" class="btn btn-primary">Back to login</a>
+</main>
+
+<%- include('partials/footer') %>

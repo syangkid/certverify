@@ -1,5 +1,3 @@
-// database/testConnection.js
-// Run with:  npm run test-db
 // Checks that the app can reach Neon, and lists the tables and roles it finds.
 
 const pool = require('../config/db');

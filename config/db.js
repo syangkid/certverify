@@ -1,7 +1,3 @@
-// config/db.js
-// Creates ONE shared connection pool to the Neon PostgreSQL database.
-// Every model file will do:  const pool = require('../config/db');
-
 require('dotenv').config(); // reads the .env file into process.env (local development)
 const { Pool } = require('pg');
 

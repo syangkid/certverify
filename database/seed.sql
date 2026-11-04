@@ -1,7 +1,3 @@
--- database/seed.sql
--- Inserts the starting data. Run it AFTER schema.sql.
--- ON CONFLICT DO NOTHING makes it safe to run more than once.
-
 -- The four roles
 INSERT INTO roles (role_name) VALUES
   ('ADMIN'),
