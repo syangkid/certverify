@@ -1,3 +1,7 @@
+/* public/css/style.css
+   One stylesheet for the whole application.
+   To change the colour theme, edit the variables in :root below. */
+
 :root {
   --primary: #1e3a5f;        /* navy: header, buttons */
   --primary-dark: #152b47;   /* darker navy: button hover */
@@ -11,7 +15,7 @@
   --error-bg: #fdecea;
 }
 
-/*  Base ---------- */
+/* ---------- Base ---------- */
 * { box-sizing: border-box; }
 
 body {
@@ -197,4 +201,34 @@ input:focus {
 @media (max-width: 600px) {
   .navbar-title { display: none; }   /* on small screens show only the logo */
   .login-title { font-size: 1.2rem; }
+}
+
+/* ---------- Logged-in user area in the navigation bar ---------- */
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-user {
+  color: #fff;
+  margin-left: 1rem;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.btn-link {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 1rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.btn-link:hover { background: rgba(255, 255, 255, 0.15); }
+
+@media (max-width: 600px) {
+  .navbar-user { display: none; }
 }

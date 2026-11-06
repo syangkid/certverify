@@ -8,7 +8,15 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 
 const pool = require('./config/db');
+const { optionalAuth } = require('./middleware/auth');
 const pageRoutes = require('./routes/pageRoutes');
+const authRoutes = require('./routes/authRoutes');
+
+// Stop early if the secret used to sign login tokens is missing.
+if (!process.env.JWT_SECRET) {
+  console.error('ERROR: JWT_SECRET is not set. Add it to your .env file (or Render environment variables).');
+  process.exit(1);
+}
 
 const app = express();
 
@@ -25,8 +33,10 @@ app.use(express.json());                          // reads JSON request bodies (
 app.use(express.urlencoded({ extended: false })); // reads normal HTML form bodies
 app.use(cookieParser());                          // reads cookies (the login token, from Phase 2)
 app.use(express.static(path.join(__dirname, 'public'))); // serves css, js and images
+app.use(optionalAuth);                            // works out who is logged in (sets req.user)
 
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/', pageRoutes);
 
 // If no route matched, the page does not exist (404).

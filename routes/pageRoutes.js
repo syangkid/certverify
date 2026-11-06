@@ -1,13 +1,25 @@
+// routes/pageRoutes.js
+// Routes that show web pages (they render EJS views).
+// More pages are added here in later phases.
+
 const express = require('express');
+const { requireAuth } = require('../middleware/auth');
+const dashboardController = require('../controllers/dashboardController');
+
 const router = express.Router();
 
-// The home page simply sends visitors to the login page.
+// Home: go to the dashboard (requireAuth sends visitors to /login instead).
 router.get('/', (req, res) => {
-  res.redirect('/login');
+  res.redirect('/dashboard');
 });
 
 router.get('/login', (req, res) => {
-  res.render('auth/login'); // views/auth/login.ejs
+  if (req.user) {
+    return res.redirect('/dashboard'); // already logged in
+  }
+  res.render('auth/login');
 });
+
+router.get('/dashboard', requireAuth, dashboardController.showDashboard);
 
 module.exports = router;

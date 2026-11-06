@@ -1,4 +1,5 @@
 <%# Navigation bar shown on every page except the login page. The small logo is here. %>
+<% const currentUser = locals.user; %>
 <header class="navbar">
   <div class="navbar-inner">
     <a href="/" class="navbar-brand">
@@ -6,7 +7,14 @@
       <span class="navbar-title">Academic Certificate Verification System</span>
     </a>
     <nav class="navbar-links">
-      <a href="/login">Login</a>
+      <% if (currentUser) { %>
+        <a href="/dashboard">Dashboard</a>
+        <span class="navbar-user"><%= currentUser.name %> (<%= currentUser.role.replace('_', ' ') %>)</span>
+        <button id="logout-button" class="btn-link">Logout</button>
+      <% } else { %>
+        <a href="/login">Login</a>
+      <% } %>
     </nav>
   </div>
 </header>
+<script src="/js/logout.js"></script>
