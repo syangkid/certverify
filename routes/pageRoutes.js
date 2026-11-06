@@ -8,6 +8,7 @@ const roleGuard = require('../middleware/roleGuard');
 const dashboardController = require('../controllers/dashboardController');
 const institutionController = require('../controllers/institutionController');
 const userController = require('../controllers/userController');
+const studentController = require('../controllers/studentController');
 
 const router = express.Router();
 
@@ -28,5 +29,8 @@ router.get('/dashboard', requireAuth, dashboardController.showDashboard);
 // Admin pages
 router.get('/admin/institutions', requireAuth, roleGuard('ADMIN'), institutionController.showPage);
 router.get('/admin/users', requireAuth, roleGuard('ADMIN'), userController.showPage);
+
+// Student management (institution staff and Admin)
+router.get('/institution/students', requireAuth, roleGuard('ADMIN', 'INSTITUTION_STAFF'), studentController.showPage);
 
 module.exports = router;

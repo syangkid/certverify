@@ -297,3 +297,21 @@ th {
 .badge-inactive { background: var(--error-bg); color: var(--error); }
 
 .navbar-links { flex-wrap: wrap; justify-content: flex-end; }
+
+/* ---------- Optional section inside a form ---------- */
+.form-section {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.form-section h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.hint {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}

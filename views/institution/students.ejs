@@ -1,0 +1,88 @@
+<%- include('../partials/head', { title: 'Students' }) %>
+<%- include('../partials/header') %>
+
+<main class="container">
+  <h1>Students</h1>
+
+  <!-- One form used for both adding and editing (students.js switches the mode) -->
+  <div class="card">
+    <h2 id="form-title">Register student</h2>
+    <div id="message" class="alert alert-error" hidden></div>
+
+    <form id="student-form">
+      <input type="hidden" id="student-id">
+
+      <label for="name">Student name</label>
+      <input type="text" id="name" maxlength="100" required>
+
+      <label for="student-number">Student number</label>
+      <input type="text" id="student-number" maxlength="50" required>
+
+      <%# Only the Administrator chooses an institution. Staff always use their own. %>
+      <% if (user.role === 'ADMIN') { %>
+        <div id="institution-group">
+          <label for="institution">Institution</label>
+          <select id="institution">
+            <% institutions.forEach(function (institution) { %>
+              <option value="<%= institution.institution_id %>"><%= institution.institution_name %></option>
+            <% }); %>
+          </select>
+        </div>
+      <% } %>
+
+      <!-- Optional login account for the student -->
+      <div class="form-section" id="login-section">
+        <h3 id="login-heading">Login account (optional)</h3>
+        <p class="hint" id="login-hint">Fill in both fields so the student can sign in and view their certificates.</p>
+
+        <div id="login-fields">
+          <label for="email">Student email</label>
+          <input type="email" id="email" maxlength="150" autocomplete="off">
+
+          <label for="password">Password (minimum 8 characters)</label>
+          <input type="password" id="password" autocomplete="new-password">
+        </div>
+
+        <p id="login-text" hidden></p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" id="save-button" class="btn btn-primary">Register student</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary" hidden>Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Student no.</th><th>Name</th><th>Institution</th><th>Login account</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% if (students.length === 0) { %>
+            <tr><td colspan="5">No students yet.</td></tr>
+          <% } %>
+          <% students.forEach(function (student) { %>
+            <tr>
+              <td><%= student.student_number %></td>
+              <td><%= student.name %></td>
+              <td><%= student.institution_name %></td>
+              <td><%= student.email || 'No login' %></td>
+              <td>
+                <button type="button" class="btn btn-secondary btn-small edit-button"
+                        data-id="<%= student.student_id %>"
+                        data-name="<%= student.name %>"
+                        data-number="<%= student.student_number %>"
+                        data-email="<%= student.email || '' %>">Edit</button>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="/js/students.js"></script>
+<%- include('../partials/footer') %>

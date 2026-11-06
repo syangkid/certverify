@@ -13,6 +13,7 @@ const pageRoutes = require('./routes/pageRoutes');
 const authRoutes = require('./routes/authRoutes');
 const institutionRoutes = require('./routes/institutionRoutes');
 const userRoutes = require('./routes/userRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 // Stop early if the secret used to sign login tokens is missing.
 if (!process.env.JWT_SECRET) {
@@ -41,6 +42,7 @@ app.use(optionalAuth);                            // works out who is logged in 
 app.use('/api/auth', authRoutes);
 app.use('/api/institutions', institutionRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/students', studentRoutes);
 app.use('/', pageRoutes);
 
 // If no route matched, the page does not exist (404).
