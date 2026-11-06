@@ -1,0 +1,55 @@
+<%- include('../partials/head', { title: 'Institutions' }) %>
+<%- include('../partials/header') %>
+
+<main class="container">
+  <h1>Institutions</h1>
+
+  <!-- One form used for both adding and editing (institutions.js switches the mode) -->
+  <div class="card">
+    <h2 id="form-title">Add institution</h2>
+    <div id="message" class="alert alert-error" hidden></div>
+
+    <form id="institution-form">
+      <input type="hidden" id="institution-id">
+
+      <label for="institution-name">Institution name</label>
+      <input type="text" id="institution-name" maxlength="150" required>
+
+      <div class="form-actions">
+        <button type="submit" id="save-button" class="btn btn-primary">Add institution</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary" hidden>Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- The table is built on the server from the data the controller passed in -->
+  <div class="card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Created</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% if (institutions.length === 0) { %>
+            <tr><td colspan="4">No institutions yet.</td></tr>
+          <% } %>
+          <% institutions.forEach(function (institution) { %>
+            <tr>
+              <td><%= institution.institution_id %></td>
+              <td><%= institution.institution_name %></td>
+              <td><%= institution.created_at.toISOString().slice(0, 10) %></td>
+              <td>
+                <button type="button" class="btn btn-secondary btn-small edit-button"
+                        data-id="<%= institution.institution_id %>"
+                        data-name="<%= institution.institution_name %>">Edit</button>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="/js/institutions.js"></script>
+<%- include('../partials/footer') %>

@@ -9,6 +9,10 @@
     <nav class="navbar-links">
       <% if (currentUser) { %>
         <a href="/dashboard">Dashboard</a>
+        <% if (currentUser.role === 'ADMIN') { %>
+          <a href="/admin/institutions">Institutions</a>
+          <a href="/admin/users">Users</a>
+        <% } %>
         <span class="navbar-user"><%= currentUser.name %> (<%= currentUser.role.replace('_', ' ') %>)</span>
         <button id="logout-button" class="btn-link">Logout</button>
       <% } else { %>

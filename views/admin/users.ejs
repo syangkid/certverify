@@ -1,0 +1,94 @@
+<%- include('../partials/head', { title: 'Users' }) %>
+<%- include('../partials/header') %>
+
+<main class="container">
+  <h1>Users</h1>
+
+  <!-- One form used for both adding and editing (users.js switches the mode) -->
+  <div class="card">
+    <h2 id="form-title">Add user</h2>
+    <div id="message" class="alert alert-error" hidden></div>
+
+    <form id="user-form">
+      <input type="hidden" id="user-id">
+
+      <label for="name">Full name</label>
+      <input type="text" id="name" maxlength="100" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" maxlength="150" required>
+
+      <label for="password" id="password-label">Password (minimum 8 characters)</label>
+      <input type="password" id="password" autocomplete="new-password" required>
+
+      <!-- Add mode: choose a role. Edit mode: the role is shown as text (it cannot be changed). -->
+      <div id="role-group">
+        <label for="role">Role</label>
+        <select id="role">
+          <% creatableRoles.forEach(function (role) { %>
+            <option value="<%= role %>"><%= role.replace('_', ' ') %></option>
+          <% }); %>
+        </select>
+      </div>
+      <p id="role-text" hidden></p>
+
+      <!-- Only institution staff belong to an institution -->
+      <div id="institution-group" hidden>
+        <label for="institution">Institution</label>
+        <select id="institution">
+          <% institutions.forEach(function (institution) { %>
+            <option value="<%= institution.institution_id %>"><%= institution.institution_name %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <!-- Edit mode only -->
+      <div id="status-group" hidden>
+        <label for="status">Status</label>
+        <select id="status">
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="INACTIVE">INACTIVE</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" id="save-button" class="btn btn-primary">Add user</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary" hidden>Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Institution</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% users.forEach(function (u) { %>
+            <tr>
+              <td><%= u.user_id %></td>
+              <td><%= u.name %></td>
+              <td><%= u.email %></td>
+              <td><%= u.role.replace('_', ' ') %></td>
+              <td><%= u.institution_name || '-' %></td>
+              <td><span class="badge badge-<%= u.status.toLowerCase() %>"><%= u.status %></span></td>
+              <td>
+                <button type="button" class="btn btn-secondary btn-small edit-button"
+                        data-id="<%= u.user_id %>"
+                        data-name="<%= u.name %>"
+                        data-email="<%= u.email %>"
+                        data-role="<%= u.role %>"
+                        data-institution-id="<%= u.institution_id || '' %>"
+                        data-status="<%= u.status %>">Edit</button>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="/js/users.js"></script>
+<%- include('../partials/footer') %>

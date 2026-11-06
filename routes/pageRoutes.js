@@ -4,7 +4,10 @@
 
 const express = require('express');
 const { requireAuth } = require('../middleware/auth');
+const roleGuard = require('../middleware/roleGuard');
 const dashboardController = require('../controllers/dashboardController');
+const institutionController = require('../controllers/institutionController');
+const userController = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -21,5 +24,9 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/dashboard', requireAuth, dashboardController.showDashboard);
+
+// Admin pages
+router.get('/admin/institutions', requireAuth, roleGuard('ADMIN'), institutionController.showPage);
+router.get('/admin/users', requireAuth, roleGuard('ADMIN'), userController.showPage);
 
 module.exports = router;
