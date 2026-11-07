@@ -37,4 +37,9 @@ router.get('/institution/students', requireAuth, roleGuard('ADMIN', 'INSTITUTION
 // Certificate management (institution staff and Admin)
 router.get('/institution/certificates', requireAuth, roleGuard('ADMIN', 'INSTITUTION_STAFF'), certificateController.showPage);
 
+// Public verification page: no requireAuth, anyone can open it.
+router.get('/verify', (req, res) => {
+  res.render('verification/verify', { title: 'Verify Certificate' });
+});
+
 module.exports = router;

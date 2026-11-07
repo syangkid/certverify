@@ -67,3 +67,13 @@ async function revoke(certificateId) {
 }
 
 module.exports = { findAll, findByInstitution, findByStudentUser, findById, create, revoke };
+
+// ---------- Added in Phase 6 (used by public verification) ----------
+
+// Finds a certificate by its verification code. Returns undefined if there is none.
+async function findByCode(verificationCode) {
+  const result = await pool.query(`${SELECT_CERTIFICATES} WHERE c.verification_code = $1`, [verificationCode]);
+  return result.rows[0];
+}
+
+module.exports.findByCode = findByCode;

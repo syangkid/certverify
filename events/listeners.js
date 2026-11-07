@@ -18,4 +18,20 @@ eventBus.on('CertificateIssued', (data) => {
   }
 });
 
-console.log('Event listeners registered: CertificateIssued');
+// VerificationRequested: emitted by verificationController AFTER the request and result
+// have been saved in PostgreSQL. The history is already safe; this only does extra work.
+eventBus.on('VerificationRequested', (data) => {
+  try {
+    // JSON.stringify shows the typed text in quotes, so odd characters cannot fake log lines.
+    const typed = JSON.stringify(data.submittedCode);
+    console.log(`[EVENT] VerificationRequested: ${typed} -> ${data.result} (request #${data.requestId}, by ${data.verifier})`);
+
+    if (data.result === 'REVOKED' || data.result === 'NOT_FOUND') {
+      console.warn(`[ALERT] A ${data.result} certificate code was checked: ${typed}`);
+    }
+  } catch (err) {
+    console.error('VerificationRequested listener failed:', err.message);
+  }
+});
+
+console.log('Event listeners registered: CertificateIssued, VerificationRequested');

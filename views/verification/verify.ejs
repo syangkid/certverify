@@ -1,0 +1,34 @@
+<%- include('../partials/head', { title: 'Verify Certificate' }) %>
+<%- include('../partials/header') %>
+
+<main class="container verify-page">
+  <h1>Verify a Certificate</h1>
+  <p class="hint">Enter the verification code printed on the certificate. You do not need an account.</p>
+
+  <div class="card">
+    <div id="message" class="alert alert-error" hidden></div>
+
+    <form id="verify-form">
+      <label for="code">Verification code</label>
+      <input type="text" id="code" placeholder="CERT-XXXXXXXX" maxlength="50"
+             autocomplete="off" spellcheck="false" required>
+      <button type="submit" id="verify-button" class="btn btn-primary btn-block">Verify</button>
+    </form>
+  </div>
+
+  <!-- The result box is filled in by verify.js -->
+  <div id="result" class="card result" hidden>
+    <h2 id="result-status"></h2>
+    <p id="result-message"></p>
+    <dl id="result-details" hidden>
+      <dt>Student</dt><dd id="detail-student"></dd>
+      <dt>Certificate</dt><dd id="detail-type"></dd>
+      <dt>Institution</dt><dd id="detail-institution"></dd>
+      <dt>Issued on</dt><dd id="detail-issued"></dd>
+      <dt id="label-revoked" hidden>Revoked on</dt><dd id="detail-revoked" hidden></dd>
+    </dl>
+  </div>
+</main>
+
+<script src="/js/verify.js"></script>
+<%- include('../partials/footer') %>

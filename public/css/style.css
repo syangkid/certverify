@@ -336,3 +336,41 @@ th {
 }
 
 .btn-danger:hover { background: #8f1d14; }
+
+/* ---------- Public verification page ---------- */
+.verify-page { max-width: 600px; }
+
+.login-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.result {
+  border-left: 6px solid var(--border);
+}
+
+.result h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.result p { margin: 0 0 0.75rem; }
+
+.result dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1rem;
+  margin: 0;
+}
+
+.result dt { color: var(--muted); }
+.result dd { margin: 0; font-weight: 600; }
+
+.result-valid { border-left-color: #067647; }
+.result-valid h2 { color: #067647; }
+
+.result-revoked { border-left-color: var(--error); }
+.result-revoked h2 { color: var(--error); }
+
+.result-not-found, .result-invalid { border-left-color: #b54708; }
+.result-not-found h2, .result-invalid h2 { color: #b54708; }
