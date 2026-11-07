@@ -3,8 +3,23 @@
 
 <main class="container">
   <h1>Administrator Dashboard</h1>
-  <div class="card">
-    <p>Welcome, <strong><%= user.name %></strong>. Your tools will appear here in later phases.</p>
+  <p class="hint">Welcome, <%= user.name %>. Here is an overview of the whole system.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-number"><%= stats.institutions %></span><span class="stat-label">Institutions</span></div>
+    <div class="stat"><span class="stat-number"><%= stats.users %></span><span class="stat-label">Users</span></div>
+    <div class="stat"><span class="stat-number"><%= stats.students %></span><span class="stat-label">Students</span></div>
+    <div class="stat"><span class="stat-number"><%= stats.active_certificates %></span><span class="stat-label">Active certificates</span></div>
+    <div class="stat"><span class="stat-number"><%= stats.revoked_certificates %></span><span class="stat-label">Revoked certificates</span></div>
+    <div class="stat"><span class="stat-number"><%= stats.verifications %></span><span class="stat-label">Verification checks</span></div>
+  </div>
+
+  <div class="actions">
+    <a class="btn btn-primary" href="/admin/institutions">Manage institutions</a>
+    <a class="btn btn-primary" href="/admin/users">Manage users</a>
+    <a class="btn btn-secondary" href="/institution/students">Students</a>
+    <a class="btn btn-secondary" href="/institution/certificates">Certificates</a>
+    <a class="btn btn-secondary" href="/verify/history">Verification history</a>
   </div>
 </main>
 

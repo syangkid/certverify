@@ -1,0 +1,47 @@
+<%- include('../partials/head', { title: 'Verification History' }) %>
+<%- include('../partials/header') %>
+
+<main class="container">
+  <h1>Verification History</h1>
+  <p class="hint"><%= scopeNote %></p>
+
+  <div class="card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Date (UTC)</th><th>Code entered</th><th>Result</th><th>Certificate</th>
+            <% if (user.role === 'ADMIN') { %><th>Institution</th><th>Checked by</th><% } %>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (history.length === 0) { %>
+            <tr><td colspan="6">No verification checks yet.</td></tr>
+          <% } %>
+          <% history.forEach(function (row) { %>
+            <tr>
+              <td><%= row.request_date.toISOString().replace('T', ' ').slice(0, 16) %></td>
+              <td class="code"><%= row.submitted_code %></td>
+              <td><span class="badge badge-<%= row.result_status.toLowerCase().replace('_', '-') %>"><%= row.result_status.replace('_', ' ') %></span></td>
+              <td>
+                <% if (row.certificate_type) { %>
+                  <%= row.certificate_type %> - <%= row.student_name %>
+                <% } else { %>-<% } %>
+              </td>
+              <% if (user.role === 'ADMIN') { %>
+                <td><%= row.institution_name || '-' %></td>
+                <td><%= row.verifier_name || 'Anonymous' %></td>
+              <% } %>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <% if (history.length >= limit) { %>
+    <p class="hint">Showing the <%= limit %> most recent checks.</p>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>

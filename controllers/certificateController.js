@@ -115,4 +115,10 @@ async function revoke(req, res) {
   res.json(revoked);
 }
 
-module.exports = { showPage, list, issue, revoke };
+// GET /student/certificates  (web page: a student's own certificates)
+async function showMyCertificates(req, res) {
+  const certificates = await Certificate.findByStudentUser(req.user.user_id);
+  res.render('student/certificates', { title: 'My Certificates', certificates });
+}
+
+module.exports = { showPage, list, issue, revoke, showMyCertificates };

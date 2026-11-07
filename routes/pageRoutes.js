@@ -10,6 +10,7 @@ const institutionController = require('../controllers/institutionController');
 const userController = require('../controllers/userController');
 const studentController = require('../controllers/studentController');
 const certificateController = require('../controllers/certificateController');
+const verificationController = require('../controllers/verificationController');
 
 const router = express.Router();
 
@@ -41,5 +42,11 @@ router.get('/institution/certificates', requireAuth, roleGuard('ADMIN', 'INSTITU
 router.get('/verify', (req, res) => {
   res.render('verification/verify', { title: 'Verify Certificate' });
 });
+
+// Verification history (Admin, institution staff, Verifier)
+router.get('/verify/history', requireAuth, roleGuard('ADMIN', 'INSTITUTION_STAFF', 'VERIFIER'), verificationController.showHistoryPage);
+
+// A student's own certificates
+router.get('/student/certificates', requireAuth, roleGuard('STUDENT'), certificateController.showMyCertificates);
 
 module.exports = router;

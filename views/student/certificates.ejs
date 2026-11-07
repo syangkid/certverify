@@ -1,0 +1,25 @@
+<%- include('../partials/head', { title: 'My Certificates' }) %>
+<%- include('../partials/header') %>
+
+<main class="container">
+  <h1>My Certificates</h1>
+  <p class="hint">Anyone can check a certificate at the Verify page using its verification code.</p>
+
+  <% if (certificates.length === 0) { %>
+    <div class="card"><p>You do not have any certificates yet.</p></div>
+  <% } %>
+
+  <% certificates.forEach(function (certificate) { %>
+    <div class="card certificate-card">
+      <div class="certificate-head">
+        <h2><%= certificate.certificate_type %></h2>
+        <span class="badge badge-<%= certificate.status.toLowerCase() %>"><%= certificate.status %></span>
+      </div>
+      <p><%= certificate.institution_name %></p>
+      <p class="hint">Issued on <%= certificate.issued_at.toISOString().slice(0, 10) %></p>
+      <p>Verification code: <span class="code"><%= certificate.verification_code %></span></p>
+    </div>
+  <% }); %>
+</main>
+
+<%- include('../partials/footer') %>

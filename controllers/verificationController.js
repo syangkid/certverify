@@ -76,4 +76,45 @@ async function verify(req, res) {
   res.json(response);
 }
 
-module.exports = { verify };
+// ---------- Added in Phase 7 (history) ----------
+
+// Loads the history rows this user is allowed to see.
+async function loadHistory(req) {
+  if (req.user.role === 'ADMIN') {
+    return Verification.findAll();                                   // everything
+  }
+  if (req.user.role === 'INSTITUTION_STAFF') {
+    return Verification.findByInstitution(req.user.institution_id);  // their institution's certificates
+  }
+  return Verification.findByVerifier(req.user.user_id);              // VERIFIER: only their own checks
+}
+
+// GET /api/verifications
+async function listHistory(req, res) {
+  const history = await loadHistory(req);
+  if (req.user.role === 'ADMIN') {
+    return res.json(history);
+  }
+  // Only the Administrator sees WHO made each check.
+  res.json(history.map(({ verifier_name, ...row }) => row));
+}
+
+// GET /verify/history  (web page)
+async function showHistoryPage(req, res) {
+  const history = await loadHistory(req);
+
+  const scopeNotes = {
+    ADMIN: 'All verification checks, including anonymous ones and failed attempts.',
+    INSTITUTION_STAFF: "Checks of your institution's certificates.",
+    VERIFIER: 'The checks you made while logged in.',
+  };
+
+  res.render('verification/history', {
+    title: 'Verification History',
+    history,
+    scopeNote: scopeNotes[req.user.role],
+    limit: Verification.HISTORY_LIMIT,
+  });
+}
+
+module.exports = { verify, listHistory, showHistoryPage };

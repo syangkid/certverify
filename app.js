@@ -16,6 +16,7 @@ const userRoutes = require('./routes/userRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const certificateRoutes = require('./routes/certificateRoutes');
 const verificationRoutes = require('./routes/verificationRoutes');
+const verificationHistoryRoutes = require('./routes/verificationHistoryRoutes');
 require('./events/listeners'); // registers the event listeners (once)
 
 // Stop early if the secret used to sign login tokens is missing.
@@ -48,6 +49,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/verify', verificationRoutes);
+app.use('/api/verifications', verificationHistoryRoutes);
 app.use('/', pageRoutes);
 
 // If no route matched, the page does not exist (404).

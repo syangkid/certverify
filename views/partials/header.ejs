@@ -18,6 +18,12 @@
           <a href="/institution/students">Students</a>
           <a href="/institution/certificates">Certificates</a>
         <% } %>
+        <% if (['ADMIN', 'INSTITUTION_STAFF', 'VERIFIER'].includes(currentUser.role)) { %>
+          <a href="/verify/history">History</a>
+        <% } %>
+        <% if (currentUser.role === 'STUDENT') { %>
+          <a href="/student/certificates">My Certificates</a>
+        <% } %>
         <span class="navbar-user"><%= currentUser.name %> (<%= currentUser.role.replace('_', ' ') %>)</span>
         <button id="logout-button" class="btn-link">Logout</button>
       <% } else { %>

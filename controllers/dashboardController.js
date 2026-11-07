@@ -1,5 +1,7 @@
 // controllers/dashboardController.js
-// Sends each user to the dashboard page that matches their role.
+// Shows each user the dashboard for their role, with the numbers they are allowed to see.
+
+const Dashboard = require('../models/Dashboard');
 
 const dashboardViews = {
   ADMIN: 'admin/dashboard',
@@ -8,8 +10,21 @@ const dashboardViews = {
   VERIFIER: 'verification/dashboard',
 };
 
-function showDashboard(req, res) {
-  res.render(dashboardViews[req.user.role], { title: 'Dashboard' });
+async function showDashboard(req, res) {
+  const role = req.user.role;
+  let stats;
+
+  if (role === 'ADMIN') {
+    stats = await Dashboard.adminCounts();
+  } else if (role === 'INSTITUTION_STAFF') {
+    stats = await Dashboard.staffCounts(req.user.institution_id);
+  } else if (role === 'STUDENT') {
+    stats = await Dashboard.studentCounts(req.user.user_id);
+  } else {
+    stats = await Dashboard.verifierCounts(req.user.user_id);
+  }
+
+  res.render(dashboardViews[role], { title: 'Dashboard', stats });
 }
 
 module.exports = { showDashboard };

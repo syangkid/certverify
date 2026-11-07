@@ -36,4 +36,47 @@ async function record({ certificateId, verifierId, submittedCode, resultStatus }
   }
 }
 
-module.exports = { record };
+// ---------- Added in Phase 7 (history pages) ----------
+
+// Each history row: the request, its result, and (if a certificate was found) its details.
+// LEFT JOIN keeps INVALID / NOT_FOUND rows, which have no certificate, and anonymous rows,
+// which have no verifier.
+const SELECT_HISTORY = `
+  SELECT r.request_id, r.submitted_code, r.request_date, s.result_status,
+         c.certificate_type, st.name AS student_name, i.institution_name,
+         u.name AS verifier_name
+  FROM verification_requests r
+  JOIN verification_results s ON s.request_id = r.request_id
+  LEFT JOIN certificates c ON c.certificate_id = r.certificate_id
+  LEFT JOIN students st ON st.student_id = c.student_id
+  LEFT JOIN institutions i ON i.institution_id = c.institution_id
+  LEFT JOIN users u ON u.user_id = r.verifier_id`;
+
+// Anyone can submit codes, so the table can grow large. Only the newest rows are loaded.
+const HISTORY_LIMIT = 200;
+
+// Everything (Administrator).
+async function findAll() {
+  const result = await pool.query(`${SELECT_HISTORY} ORDER BY r.request_id DESC LIMIT ${HISTORY_LIMIT}`);
+  return result.rows;
+}
+
+// Only the checks made by one logged-in verifier.
+async function findByVerifier(userId) {
+  const result = await pool.query(
+    `${SELECT_HISTORY} WHERE r.verifier_id = $1 ORDER BY r.request_id DESC LIMIT ${HISTORY_LIMIT}`,
+    [userId]
+  );
+  return result.rows;
+}
+
+// Only the checks of one institution's certificates (institution staff).
+async function findByInstitution(institutionId) {
+  const result = await pool.query(
+    `${SELECT_HISTORY} WHERE c.institution_id = $1 ORDER BY r.request_id DESC LIMIT ${HISTORY_LIMIT}`,
+    [institutionId]
+  );
+  return result.rows;
+}
+
+module.exports = { record, findAll, findByVerifier, findByInstitution, HISTORY_LIMIT };

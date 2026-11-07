@@ -374,3 +374,55 @@ th {
 
 .result-not-found, .result-invalid { border-left-color: #b54708; }
 .result-not-found h2, .result-invalid h2 { color: #b54708; }
+
+/* ---------- Dashboards ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.stat {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* ---------- History badges and student certificate cards ---------- */
+.badge-valid { background: #e3f4ea; color: #067647; }
+.badge-not-found, .badge-invalid { background: #fef0c7; color: #b54708; }
+
+.certificate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.certificate-card h2 { margin: 0; }
+.certificate-card p { margin: 0.25rem 0; }
