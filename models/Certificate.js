@@ -7,6 +7,7 @@ const pool = require('../config/db');
 const SELECT_CERTIFICATES = `
   SELECT c.certificate_id, c.certificate_type, c.status, c.verification_code,
          c.issued_at, c.revoked_at, c.student_id, c.institution_id,
+         s.user_id AS student_user_id,
          s.name AS student_name, s.student_number,
          i.institution_name, u.name AS issued_by_name
   FROM certificates c

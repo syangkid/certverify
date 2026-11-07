@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const Certificate = require('../models/Certificate');
 const Student = require('../models/Student');
 const eventBus = require('../events/eventBus');
+const { generateCertificatePdf } = require('../services/certificatePdfService');
 
 const MAX_CODE_ATTEMPTS = 5;
 
@@ -121,4 +122,66 @@ async function showMyCertificates(req, res) {
   res.render('student/certificates', { title: 'My Certificates', certificates });
 }
 
-module.exports = { showPage, list, issue, revoke, showMyCertificates };
+// GET /api/certificates/:id/pdf
+// Secure PDF download for Admin, institution staff and certificate owner.
+async function downloadPdf(req, res) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ message: 'Invalid certificate ID' });
+  }
+
+  const certificate = await Certificate.findById(id);
+
+  if (!certificate) {
+    return res.status(404).json({ message: 'Certificate not found' });
+  }
+
+  // Students can download only their own certificates.
+  if (
+    req.user.role === 'STUDENT' &&
+    String(certificate.student_user_id) !== String(req.user.user_id)
+  ) {
+    return res.status(404).json({ message: 'Certificate not found' });
+  }
+
+  // Institution staff can download only their institution's certificates.
+  if (
+    isStaff(req) &&
+    String(certificate.institution_id) !== String(req.user.institution_id)
+  ) {
+    return res.status(404).json({ message: 'Certificate not found' });
+  }
+
+  const baseUrl = (
+    process.env.APP_BASE_URL ||
+    `${req.protocol}://${req.get('host')}`
+  ).replace(/\/+$/, '');
+
+  const verificationUrl = new URL('/verify', baseUrl);
+  verificationUrl.searchParams.set('code', certificate.verification_code);
+
+  const filename = `certificate-${certificate.certificate_id}.pdf`;
+
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader(
+    'Content-Disposition',
+    `attachment; filename="${filename}"`
+  );
+  res.setHeader('Cache-Control', 'private, no-store');
+
+  await generateCertificatePdf(
+    certificate,
+    verificationUrl.toString(),
+    res
+  );
+}
+
+module.exports = {
+  showPage,
+  list,
+  issue,
+  revoke,
+  showMyCertificates,
+  downloadPdf,
+};

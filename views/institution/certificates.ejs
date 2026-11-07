@@ -24,15 +24,30 @@
           <% }); %>
         </select>
 
-        <label for="type">Certificate type</label>
-        <input type="text" id="type" list="type-suggestions" maxlength="100"
-               placeholder="e.g. Bachelor of Science" required>
-        <datalist id="type-suggestions">
-          <option value="Diploma">
-          <option value="Bachelor's Degree">
-          <option value="Master's Degree">
-          <option value="Certificate of Completion">
-        </datalist>
+        
+<label for="type">Certificate Type</label>
+<input
+  type="text"
+  id="type"
+  list="type-suggestions"
+  maxlength="100"
+  placeholder="Enter or select a certificate type"
+  required
+>
+
+<datalist id="type-suggestions">
+  <option value="Course Completion Certificate">
+  <option value="Unit Completion Certificate">
+  <option value="Programme Completion Certificate">
+  <option value="Workshop Participation Certificate">
+  <option value="Seminar Participation Certificate">
+  <option value="Conference Participation Certificate">
+  <option value="Training Completion Certificate">
+  <option value="Professional Development Certificate">
+  <option value="Event Participation Certificate">
+  <option value="Certificate of Achievement">
+</datalist>
+
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Issue certificate</button>
@@ -47,7 +62,10 @@
         <thead>
           <tr>
             <th>Verification code</th><th>Student</th><th>Type</th><th>Institution</th>
-            <th>Status</th><th>Issued</th><th></th>
+            <th>Status</th>
+<th>Issued</th>
+<th>Download</th>
+<th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -63,12 +81,25 @@
               <td><span class="badge badge-<%= certificate.status.toLowerCase() %>"><%= certificate.status %></span></td>
               <td><%= certificate.issued_at.toISOString().slice(0, 10) %></td>
               <td>
-                <% if (certificate.status === 'ACTIVE') { %>
-                  <button type="button" class="btn btn-danger btn-small revoke-button"
-                          data-id="<%= certificate.certificate_id %>"
-                          data-code="<%= certificate.verification_code %>">Revoke</button>
-                <% } %>
-              </td>
+  <a
+    href="/api/certificates/<%= certificate.certificate_id %>/pdf"
+    class="btn btn-primary btn-small"
+  >
+    Download PDF
+  </a>
+</td>
+
+<td>
+  <% if (certificate.status === 'ACTIVE') { %>
+    <button type="button"
+            class="btn btn-danger btn-small revoke-button"
+            data-id="<%= certificate.certificate_id %>"
+            data-code="<%= certificate.verification_code %>">
+      Revoke
+    </button>
+  <% } %>
+</td>
+<tr><td colspan="8">No certificates issued yet.</td></tr>
             </tr>
           <% }); %>
         </tbody>

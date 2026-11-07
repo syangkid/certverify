@@ -18,6 +18,14 @@
       <p><%= certificate.institution_name %></p>
       <p class="hint">Issued on <%= certificate.issued_at.toISOString().slice(0, 10) %></p>
       <p>Verification code: <span class="code"><%= certificate.verification_code %></span></p>
+      <div class="form-actions">
+  <a
+    href="/api/certificates/<%= certificate.certificate_id %>/pdf"
+    class="btn btn-primary"
+  >
+    Download PDF
+  </a>
+</div>
     </div>
   <% }); %>
 </main>

@@ -9,6 +9,11 @@ const roleGuard = require('../middleware/roleGuard');
 const router = express.Router();
 
 router.use(requireAuth); // everything here needs a login; roles are checked per route
+router.get(
+  '/:id/pdf',
+  roleGuard('ADMIN', 'INSTITUTION_STAFF', 'STUDENT'),
+  certificateController.downloadPdf
+);
 
 // Admin and staff see their scope; a student sees only their own certificates.
 router.get('/', roleGuard('ADMIN', 'INSTITUTION_STAFF', 'STUDENT'), certificateController.list);
