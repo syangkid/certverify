@@ -15,6 +15,7 @@
         <% } %>
         <% if (currentUser.role === 'ADMIN' || currentUser.role === 'INSTITUTION_STAFF') { %>
           <a href="/institution/students">Students</a>
+          <a href="/institution/certificates">Certificates</a>
         <% } %>
         <span class="navbar-user"><%= currentUser.name %> (<%= currentUser.role.replace('_', ' ') %>)</span>
         <button id="logout-button" class="btn-link">Logout</button>

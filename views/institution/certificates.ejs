@@ -1,0 +1,81 @@
+<%- include('../partials/head', { title: 'Certificates' }) %>
+<%- include('../partials/header') %>
+
+<main class="container">
+  <h1>Certificates</h1>
+
+  <div class="card">
+    <h2>Issue a certificate</h2>
+
+    <!-- Success and error messages (certificates.js fills them in) -->
+    <div id="success" class="alert alert-success" hidden></div>
+    <div id="message" class="alert alert-error" hidden></div>
+
+    <% if (students.length === 0) { %>
+      <p>There are no students yet. <a href="/institution/students">Register a student</a> first.</p>
+    <% } else { %>
+      <form id="certificate-form">
+        <label for="student">Student</label>
+        <select id="student" required>
+          <% students.forEach(function (student) { %>
+            <option value="<%= student.student_id %>">
+              <%= student.student_number %> - <%= student.name %> (<%= student.institution_name %>)
+            </option>
+          <% }); %>
+        </select>
+
+        <label for="type">Certificate type</label>
+        <input type="text" id="type" list="type-suggestions" maxlength="100"
+               placeholder="e.g. Bachelor of Science" required>
+        <datalist id="type-suggestions">
+          <option value="Diploma">
+          <option value="Bachelor's Degree">
+          <option value="Master's Degree">
+          <option value="Certificate of Completion">
+        </datalist>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Issue certificate</button>
+        </div>
+      </form>
+    <% } %>
+  </div>
+
+  <div class="card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Verification code</th><th>Student</th><th>Type</th><th>Institution</th>
+            <th>Status</th><th>Issued</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (certificates.length === 0) { %>
+            <tr><td colspan="7">No certificates issued yet.</td></tr>
+          <% } %>
+          <% certificates.forEach(function (certificate) { %>
+            <tr>
+              <td class="code"><%= certificate.verification_code %></td>
+              <td><%= certificate.student_name %> (<%= certificate.student_number %>)</td>
+              <td><%= certificate.certificate_type %></td>
+              <td><%= certificate.institution_name %></td>
+              <td><span class="badge badge-<%= certificate.status.toLowerCase() %>"><%= certificate.status %></span></td>
+              <td><%= certificate.issued_at.toISOString().slice(0, 10) %></td>
+              <td>
+                <% if (certificate.status === 'ACTIVE') { %>
+                  <button type="button" class="btn btn-danger btn-small revoke-button"
+                          data-id="<%= certificate.certificate_id %>"
+                          data-code="<%= certificate.verification_code %>">Revoke</button>
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="/js/certificates.js"></script>
+<%- include('../partials/footer') %>

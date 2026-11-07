@@ -9,6 +9,7 @@ const dashboardController = require('../controllers/dashboardController');
 const institutionController = require('../controllers/institutionController');
 const userController = require('../controllers/userController');
 const studentController = require('../controllers/studentController');
+const certificateController = require('../controllers/certificateController');
 
 const router = express.Router();
 
@@ -32,5 +33,8 @@ router.get('/admin/users', requireAuth, roleGuard('ADMIN'), userController.showP
 
 // Student management (institution staff and Admin)
 router.get('/institution/students', requireAuth, roleGuard('ADMIN', 'INSTITUTION_STAFF'), studentController.showPage);
+
+// Certificate management (institution staff and Admin)
+router.get('/institution/certificates', requireAuth, roleGuard('ADMIN', 'INSTITUTION_STAFF'), certificateController.showPage);
 
 module.exports = router;

@@ -315,3 +315,24 @@ th {
   color: var(--muted);
   font-size: 0.85rem;
 }
+
+/* ---------- Certificates ---------- */
+.alert-success {
+  background: #e3f4ea;
+  color: #067647;
+}
+
+.badge-revoked { background: var(--error-bg); color: var(--error); }
+
+.code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.btn-danger {
+  background: var(--error);
+  color: #fff;
+}
+
+.btn-danger:hover { background: #8f1d14; }
